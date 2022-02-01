@@ -1,0 +1,33 @@
+# Default values for django-hello.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+version: v1
+
+image:
+  repository: amjedsaleel/django-hello
+  pullPolicy: IfNotPresent
+  tag: "latest"
+  port: 8000
+
+  environment:
+    database: postgres
+    user: postgres
+    password: password
+    port: "5432"
+
+configmap: 
+  data:
+    postgres_db_url: database-service   
+
+service:
+  type: LoadBalancer
+  port: 80
+
+
+
+
+
+
+
