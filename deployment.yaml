@@ -1,51 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dj-hello-v1
+  name: dj-hello
   labels:
-    app: dj-hello-v1
+    app: dj-hello
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dj-hello-v1
+      app: dj-hello
   template:
     metadata:
       labels:
-        app: dj-hello-v1
-        service: dj-hello
-        version: v1
+        app: dj-hello
     spec:
       containers:
-        - name: dj-hello-v1
-          image: amjedsaleel/dj-hello:v1.1
+        - name: dj-hello
+          image: amjedsaleel/django-hello
           ports:
             - containerPort: 8000
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: dj-hello-v2
-  labels:
-    app: dj-hello-v2
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: dj-hello-v2
-  template:
-    metadata:
-      labels:
-        app: dj-hello-v2
-        service: dj-hello
-        version: v2
-    spec:
-      containers:
-        - name: dj-hello-v2
-          image: amjedsaleel/dj-hello:v2
-          ports:
-            - containerPort: 8000
-
 ---
 apiVersion: v1
 kind: Service
@@ -53,11 +26,10 @@ metadata:
   name: dj-hello-service
 spec:
   selector:
-    service: dj-hello
-#    version: v1
-#  type: LoadBalancer
+    app: dj-hello
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 8000
       targetPort: 8000
-#      nodePort: 32106
+      nodePort: 32106
