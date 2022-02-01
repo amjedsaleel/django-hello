@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dj-hello-v1
+  labels:
+    app: dj-hello-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dj-hello-v1
+  template:
+    metadata:
+      labels:
+        app: dj-hello-v1
+        service: dj-hello
+        version: v1
+    spec:
+      containers:
+        - name: dj-hello-v1
+          image: amjedsaleel/dj-hello:v1.1
+          ports:
+            - containerPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dj-hello-v2
+  labels:
+    app: dj-hello-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dj-hello-v2
+  template:
+    metadata:
+      labels:
+        app: dj-hello-v2
+        service: dj-hello
+        version: v2
+    spec:
+      containers:
+        - name: dj-hello-v2
+          image: amjedsaleel/dj-hello:v2
+          ports:
+            - containerPort: 8000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dj-hello-service
+spec:
+  selector:
+    service: dj-hello
+#    version: v1
+#  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+#      nodePort: 32106

@@ -1,0 +1,1 @@
+ENTRYPOINT sh entrypoint.sh
