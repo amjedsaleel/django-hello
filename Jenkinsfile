@@ -21,9 +21,8 @@
                     sh 'docker login -u amjedsaleel -p $DOCKER_HUB_PASSWORD'
                 }
                 sh 'docker push amjedsaleel/django-hello:$BUILD_NUMBER' 
-                sh "docker logout"
+                sh 'docker logout'
             }
         }
-
      }
- }
+}
