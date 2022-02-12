@@ -8,6 +8,23 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/amjedsaleel/django-hello.git'
             }
         }
+        stage('Static code analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'sonarQubeScanner'
+                    withSonarQubeEnv('SonarQube') {
+                     sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
+        stage('Quality gate') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
         stage('Docker build') {
             steps {
                 sh 'docker build -t django-hello .'
