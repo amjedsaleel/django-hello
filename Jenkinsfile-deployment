@@ -13,26 +13,26 @@ pipeline {
                         def buildNumber = Jenkins.instance.getItem('Django hello build').lastSuccessfulBuild.number
                         echo "${buildNumber}"
                         try {
-                            sh "helm upgrade version2 --set image.tag=$buildNumber amjed/django-hello"
+                            sh "helm upgrade staging --set image.tag=$buildNumber amjed/django-hello"
                         }
                         catch (err) {
-                            sh "helm install version2 --set image.tag=$buildNumber amjed/django-hello"
+                            sh "helm install staging --set image.tag=$buildNumber amjed/django-hello"
                         }
                     }
                 }
             }
         }
-        stage('Green version') {cl
+        stage('Green version') {
             steps {
                 withKubeConfig(credentialsId: '7f7d1279-32c0-40eb-90ae-78bcdfebf101', serverUrl: '') {
                     script {
                         def buildNumber = Jenkins.instance.getItem('Django hello build').lastSuccessfulBuild.number
                         echo "${buildNumber}"
                         try {
-                            sh "helm upgrade django-hello --set image.tag=$buildNumber amjed/django-hello"
+                            sh "helm upgrade production --set image.tag=$buildNumber amjed/django-hello"
                         }
                         catch (err) {
-                            sh "helm install django-hello --set image.tag=$buildNumber amjed/django-hello"
+                            sh "helm install production --set image.tag=$buildNumber amjed/django-hello"
                         }
                     }
                 }
