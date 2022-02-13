@@ -1,7 +1,28 @@
 pipeline {
-    agent { label 'mars' }
+    agent { label 'k8s' }
     stages {
-        stage('Deploy') {
+        stage('Add helm repo') {
+            steps {
+                sh 'helm repo add amjed https://amjedsaleel.github.io/helm-charts/'
+            }
+        }
+        stage('Blue version') {
+            steps {
+                withKubeConfig(credentialsId: '7f7d1279-32c0-40eb-90ae-78bcdfebf101', serverUrl: '') {
+                    script {
+                        def buildNumber = Jenkins.instance.getItem('Django hello build').lastSuccessfulBuild.number
+                        echo "${buildNumber}"
+                        try {
+                            sh "helm upgrade version2 --set image.tag=$buildNumber amjed/django-hello"
+                        }
+                        catch (err) {
+                            sh "helm install version2 --set image.tag=$buildNumber amjed/django-hello"
+                        }
+                    }
+                }
+            }
+        }
+        stage('Green version') {cl
             steps {
                 withKubeConfig(credentialsId: '7f7d1279-32c0-40eb-90ae-78bcdfebf101', serverUrl: '') {
                     script {
@@ -10,7 +31,7 @@ pipeline {
                         try {
                             sh "helm upgrade django-hello --set image.tag=$buildNumber amjed/django-hello"
                         }
-                        catch(err) {
+                        catch (err) {
                             sh "helm install django-hello --set image.tag=$buildNumber amjed/django-hello"
                         }
                     }
