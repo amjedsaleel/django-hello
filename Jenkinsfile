@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'mars'
+        label 'k8s'
     }
     stages {
         stage('Pull the code') {
