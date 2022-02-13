@@ -22,7 +22,7 @@ pipeline {
                 }
             }
         }
-        stage('Green version') {cl
+        stage('Green version') {
             steps {
                 withKubeConfig(credentialsId: '7f7d1279-32c0-40eb-90ae-78bcdfebf101', serverUrl: '') {
                     script {
