@@ -27,14 +27,15 @@ pipeline {
         }
         stage('Docker build') {
             steps {
-                sh 'docker build -t django-hello .'
+                app = docker.build("amjedsaleel/django-hello:$BUILD_NUMBER")
+                app.push()
             }
         }
-        stage('Tag docker image') {
-            steps {
-                sh 'docker tag django-hello amjedsaleel/django-hello:$BUILD_NUMBER'
-            }
-        }
+        // stage('Tag docker image') {
+        //     steps {
+        //         sh 'docker tag django-hello amjedsaleel/django-hello:$BUILD_NUMBER'
+        //     }
+        // }
         stage('Push to docker hub') {
             steps {
                 withCredentials([string(credentialsId: '121b8ad1-a72d-41d1-9567-f2a4a65dc5b4', variable: 'DOCKER_HUB_PASSWORD')]) {
