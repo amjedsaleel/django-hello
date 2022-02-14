@@ -1,11 +1,11 @@
 pipeline {
-    agent { label 'k8s' }
+    agent { label 'mars' }
     stages {
-        stage('Add helm repo') {
-            steps {
-                sh 'helm repo add amjed https://amjedsaleel.github.io/helm-charts/'
-            }
-        }
+        // stage('Add helm repo') {
+        //     steps {
+        //         sh 'helm repo add amjed https://amjedsaleel.github.io/helm-charts/'
+        //     }
+        // }
         stage('Blue version') {
             steps {
                 withKubeConfig(credentialsId: '7f7d1279-32c0-40eb-90ae-78bcdfebf101', serverUrl: '') {
