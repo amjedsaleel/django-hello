@@ -46,8 +46,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                build job: 'django hello deploy', parameters: [string(name: 'BUILD-NUMBER', value: "${BUILD_NUMBER}")]
-    
+                // build job: 'django hello deploy', parameters: [string(name: 'BUILD-NUMBER', value: "${}")]
+                build job: 'django hello deploy', parameters: [string(name: 'HHH', value: "${BUILD_NUMBER}")] 
             }
         }
     }
