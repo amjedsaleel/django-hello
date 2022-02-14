@@ -46,7 +46,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                build job 'django hello deploy', parameters: [string(name: 'build-bumber', value: "${BUILD_NUMBER}")]
+                script {
+                    build job 'django hello deploy', 
+                            parameters: [string(name: 'build-bumber', value: "${BUILD_NUMBER}")]
+                }
             }
         }
     }
