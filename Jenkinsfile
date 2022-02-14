@@ -27,8 +27,9 @@ pipeline {
         }
         stage('Docker build') {
             steps {
-                app = docker.build("amjedsaleel/django-hello:$BUILD_NUMBER")
-                app.push()
+                script {
+                    def app = docker.build "amjedsaleel/django-hello:${BUILD_NUMBER}"
+                }
             }
         }
         // stage('Tag docker image') {
