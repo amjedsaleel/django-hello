@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'mars' }
     parameters {
-        string(name: 'build-bumber', defaultValue: '')
+        string(name: 'BUILD-NUMBER', defaultValue: '')
     }
     stages {  
         // stage('Add helm repo') {
@@ -14,12 +14,12 @@ pipeline {
                 withKubeConfig(credentialsId: '7f7d1279-32c0-40eb-90ae-78bcdfebf101', serverUrl: '') {
                     script {
                         // def buildNumber = Jenkins.instance.getItem('Django hello build').lastSuccessfulBuild.number
-                        echo "${params.build-bumber}"
+                        echo "${params.BUILD-NUMBER}"
                         try {
-                            sh "helm upgrade staging --set image.tag=${params.build-bumber} amjed/django-hello"
+                            sh "helm upgrade staging --set image.tag=${params.BUILD-NUMBER} amjed/django-hello"
                         }
                         catch (err) {
-                            sh "helm install staging --set image.tag=${params.build-bumber} amjed/django-hello"
+                            sh "helm install staging --set image.tag=${params.BUILD-NUMBER} amjed/django-hello"
                         }
                     }
                 }
@@ -29,13 +29,13 @@ pipeline {
             steps {
                 withKubeConfig(credentialsId: '7f7d1279-32c0-40eb-90ae-78bcdfebf101', serverUrl: '') {
                     script {
-                        def buildNumber = Jenkins.instance.getItem('Django hello build').lastSuccessfulBuild.number
-                        echo "${buildNumber}"
+                        // def buildNumber = Jenkins.instance.getItem('Django hello build').lastSuccessfulBuild.number
+                        echo "${params.BUILD-NUMBER}}"
                         try {
-                            sh "helm upgrade production --set image.tag=${params.build-bumber} amjed/django-hello"
+                            sh "helm upgrade production --set image.tag=${params.BUILD-NUMBER}} amjed/django-hello"
                         }
                         catch (err) {
-                            sh "helm install production --set image.tag=${params.build-bumber} amjed/django-hello"
+                            sh "helm install production --set image.tag=${params.BUILD-NUMBER}} amjed/django-hello"
                         }
                     }
                 }
