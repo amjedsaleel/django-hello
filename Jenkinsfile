@@ -11,6 +11,9 @@ pipeline {
             containers:
             - name: docker
               image: amjedsaleel/docker
+              command:
+              - cat
+                tty: true
           '''
       }
     }
