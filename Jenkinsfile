@@ -30,10 +30,13 @@ pipeline {
             steps {
                 
                     script {
-                        sh 'whoami'
-                        def scannerHome = tool 'sonarQubeScanner'
-                        withSonarQubeEnv('SonarQube') {
-                        sh "${scannerHome}/bin/sonar-scanner"
+                        container('docker') {
+                            sh 'whoami'
+                            def scannerHome = tool 'sonarQubeScanner'
+                            withSonarQubeEnv('SonarQube') {
+                            sh "${scannerHome}/bin/sonar-scanner"
+                        }
+
                     }
                 
               }
@@ -53,6 +56,7 @@ pipeline {
         stage('Docker build') {
             steps {
                 container('docker') {
+                    sh 'whoami'
                     sh 'docker build -t django-hello .'
                 }
             }
