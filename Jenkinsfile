@@ -29,6 +29,7 @@ pipeline {
             steps {
                 
                     script {
+                        sh 'whoami'
                         def scannerHome = tool 'sonarQubeScanner'
                         withSonarQubeEnv('SonarQube') {
                         sh "${scannerHome}/bin/sonar-scanner"
