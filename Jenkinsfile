@@ -21,6 +21,7 @@ pipeline {
         stage('Pull the code') {
             steps {
               container('docker') {
+                sh 'whoami'
                 git branch: 'main', url: 'https://github.com/amjedsaleel/django-hello.git'
               }
             }
