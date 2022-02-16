@@ -25,9 +25,9 @@ pipeline {
         stage('Static code analysis') {
             steps {
                 container('docker') {
-                  script {
-                    def scannerHome = tool 'sonarQubeScanner'
-                    withSonarQubeEnv('SonarQube') {
+                    script {
+                        def scannerHome = tool 'sonarQubeScanner'
+                        withSonarQubeEnv('SonarQube') {
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
@@ -46,26 +46,26 @@ pipeline {
             }
         }
         stage('Docker build') {
-            container('docker') {
-              steps {
-                  sh 'docker build -t django-hello .'
-              }
-            }
-
-        }
-        stage('Tag docker image') {
-            container('docker') {
-                steps {
-                    sh 'docker tag django-hello amjedsaleel/django-hello:$BUILD_NUMBER'
+            steps {
+                container('docker') {
+                    sh 'docker build -t django-hello .'
                 }
             }
+        }
+        stage('Tag docker image') {
+          steps {
+              container('docker') {
+                  sh 'docker tag django-hello amjedsaleel/django-hello:$BUILD_NUMBER' 
+            }
+          }
+
         }
         stage('Push to docker hub') {
             steps {
                 container('docker') {
                     withCredentials([string(credentialsId: '121b8ad1-a72d-41d1-9567-f2a4a65dc5b4', variable: 'DOCKER_HUB_PASSWORD')]) {
-                    sh 'docker login -u amjedsaleel -p $DOCKER_HUB_PASSWORD'
-                }
+                        sh 'docker login -u amjedsaleel -p $DOCKER_HUB_PASSWORD'
+                    }
                     sh 'docker push amjedsaleel/django-hello:$BUILD_NUMBER'
                     sh 'docker logout'
                 }
