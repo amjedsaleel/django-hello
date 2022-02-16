@@ -13,7 +13,7 @@ pipeline {
               image: amjedsaleel/docker
               command:
               - cat
-                tty: true
+              tty: true
           '''
       }
     }
