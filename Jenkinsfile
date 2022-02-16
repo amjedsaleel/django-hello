@@ -6,14 +6,14 @@ pipeline {
             kind: Pod
             metadata:
             labels:
-                app: app
+              app: app
             spec:
-            containers:
-            - name: ubuntu
-                image: amjedsaleel/docker
-                command:
-                - cat
-                tty: true
+              containers:
+              - name: ubuntu
+                  image: amjedsaleel/docker
+                  command:
+                  - cat
+                  tty: true
             '''
         }
     }
