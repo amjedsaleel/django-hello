@@ -27,24 +27,24 @@ pipeline {
         }
         stage('Static code analysis') {
             steps {
-                container('docker') {
+                
                     script {
                         def scannerHome = tool 'sonarQubeScanner'
                         withSonarQubeEnv('SonarQube') {
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
-                }
+                
               }
 
             }
         }
         stage('Quality gate') {
             steps {
-                container('docker') {
+                 
                     timeout(time: 1, unit: 'HOURS') {
                         waitForQualityGate abortPipeline: true
                     }
-                }
+                
 
             }
         }
