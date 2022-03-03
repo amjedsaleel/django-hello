@@ -27,9 +27,13 @@ pipeline {
             }
         }
         stage('Static code analysis') {
-            def scannerHome = tool 'SonarScanner';
-            withSonarQubeEnv("SonarQube") {
-                sh "${scannerHome}/bin/sonar-scanner"
+            steps {
+                script {
+                    def scannerHome = tool 'sonarQubeScanner'
+                    withSonarQubeEnv('SonarQube') {
+                     sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
             }
         }
         stage('Quality gate') {
