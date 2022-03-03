@@ -50,6 +50,7 @@ pipeline {
             steps {
                 container('docker') {
                     sh 'whoami'
+                    sh 'service docker status'
                     sh 'docker build -t django-hello .'
                 }
             }
