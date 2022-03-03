@@ -27,20 +27,9 @@ pipeline {
             }
         }
         stage('Static code analysis') {
-            steps {
-                
-                    script {
-                        container('docker') {
-                            sh 'whoami'
-                            def scannerHome = tool 'sonarQubeScanner'
-                            withSonarQubeEnv('SonarQube') {
-                            sh "${scannerHome}/bin/sonar-scanner"
-                        }
-
-                    }
-                
-              }
-
+            def scannerHome = tool 'SonarScanner';
+            withSonarQubeEnv("SonarQube") {
+                sh "${scannerHome}/bin/sonar-scanner"
             }
         }
         stage('Quality gate') {
